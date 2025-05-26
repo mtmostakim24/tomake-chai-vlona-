@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Refer & Earn</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f1f2f6; }
+    header { background: #2ecc71; color: white; padding: 20px; text-align: center; position: relative; }
+    .notification { position: absolute; right: 20px; top: 20px; cursor: pointer; }
+    .notification::after {
+      content: '1'; position: absolute; top: -8px; right: -8px;
+      background: red; color: white; border-radius: 50%; width: 16px; height: 16px;
+      text-align: center; font-size: 12px; line-height: 16px;
+    }
+    .notice-box { display: none; background: #fff3cd; padding: 10px; margin: 10px; border-radius: 5px; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+    .balance-box { background: #ecf0f1; padding: 15px; border-radius: 10px; text-align: center; color: #27ae60; font-size: 20px; margin-bottom: 15px; }
+    .btn {
+      background: #27ae60; color: white; padding: 10px 15px; border: none;
+      border-radius: 5px; margin: 5px 5px 0 0; cursor: pointer;
+    }
+    .btn-purple { background: #8e44ad; float: right; }
+    .btn-signup { background: #f39c12; }
+    .copy-add-wrap { display: flex; gap: 10px; }
+    input, select {
+      width: 100%; padding: 10px; margin-top: 10px;
+      border: 1px solid #ccc; border-radius: 6px;
+    }
+    .share-note { margin-top: 15px; background: #dfe6e9; padding: 10px; border-radius: 6px; }
+    .share-buttons { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .share-buttons a {
+      flex: 1 1 48%; background: #3498db; color: white; padding: 10px;
+      text-align: center; border-radius: 5px; text-decoration: none;
+    }
+    .form-section, .signup-form { display: none; margin-top: 20px; position: relative; }
+    .form-close {
+      position: absolute; top: -10px; right: -10px;
+      background: red; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;
+    }
+    .success { color: green; text-align: center; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>রেফার করো & আয় করো</h1>
+    <p>প্রতি বন্ধু জয়েন করলে পাবে $0.25!</p>
+    <div class="notification" onclick="showNotice()">🔔</div>
+  </header>
+
+  <div class="notice-box" id="noticeBox">নতুন আপডেট: প্রতি রেফারে এখন $0.25</div>
+
+  <div class="container">
+    <div class="balance-box">বর্তমান ব্যালেন্স: $<span id="balance">0.00</span></div>
+
+    <h3>তোমার রেফার লিঙ্ক:</h3>
+    <input type="text" id="referLink" readonly>
+    <div class="copy-add-wrap">
+      <button class="btn" onclick="copyLink()">কপি করো</button>
+      <button class="btn" onclick="addAdBalance()">+ $0.01 অ্যাড করো</button>
+    </div>
+
+   <div class="share-note">
+ Messenger এ শেয়ার করে বন্ধুদের ইনভাইট করুন।<br>
+  <b>কেন রেফার করবেন?</b><br>
+  প্রতি রেফারে পাবে $0.25। মাত্র ২০ জন রেফার করলেই পাবে $5।<br>
+  এই ডলার দিয়ে আপনি  বিকাশ অথবা নগদে টাকা নিতে পারবেন। আপনার লিংকে ক্লিক করলেই $0.25 পাবেন এখনি আপনার বন্ধুদের শেয়ার করুন।<br>
+  <span id="shareText"></span>
+</div>
+
+<div class="share-buttons">
+  <a id="messengerShare" target="_blank">Messenger এ শেয়ার করুন</a>
+  <a id="whatsappShare" target="_blank">WhatsApp এ শেয়ার করুন</a>
+  <a id="facebookShare" target="_blank">Facebook এ শেয়ার করুন</a>
+</div>
+
+    <div style="margin-top:20px;">
+      <button class="btn" onclick="toggleWithdraw()">Withdraw request</button>
+      <button class="btn btn-purple" onclick="window.open('https://www.facebook.com/share/18vLLiRL7Y/')">Payment Proof</button>
+      <button class="btn btn-signup" id="signupBtn" onclick="toggleSignup()">Sign Up</button>
+    </div>
+
+    <div class="form-section" id="withdrawForm">
+      <button class="form-close" onclick="toggleWithdraw()">×</button>
+      <label>নাম:</label>
+      <input type="text" id="name">
+      <label>Withdraw Method:</label>
+      <select id="method">
+        <option>Bkash</option>
+        <option>Nagad</option>
+      </select>
+      <label>নম্বর:</label>
+      <input type="text" id="number">
+      <label>টাকার পরিমাণ ($):</label>
+      <input type="number" id="amount">
+      <button class="btn" onclick="submitWithdraw()">Withdraw করুন</button>
+      <div class="success" id="msg"></div>
+    </div>
+
+    <div class="signup-form" id="signupForm">
+      <h3>Sign Up ফর্ম</h3>
+      <input type="text" placeholder="Full Name">
+      <input type="text" placeholder="Username">
+      <input type="email" placeholder="Email">
+      <input type="text" placeholder="Phone">
+      <input type="password" placeholder="Password">
+      <button class="btn" onclick="window.open('https://www.profitableratecpm.com/mzze4b78n?key=e3998055e23a80c5cbffb7d80a88c74c')">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    const domain = window.location.origin;
+    const referID = localStorage.getItem('referName') || "USER" + Math.floor(Math.random() * 100000);
+    localStorage.setItem('referName', referID);
+    const referLink = `${domain}/?ref=${referID}`;
+    document.getElementById("referLink").value = referLink;
+    document.getElementById("shareText").textContent = referLink;
+
+    document.getElementById("whatsappShare").href = "https://wa.me/?text=" + encodeURIComponent("রেফার করলেই $0.25:
+" + referLink);
+    document.getElementById("facebookShare").href = "https://facebook.com/sharer/sharer.php?u=" + encodeURIComponent(referLink);
+    document.getElementById("messengerShare").href = "fb-messenger://share?link=" + encodeURIComponent(referLink);
+
+    let balance = parseFloat(localStorage.getItem("balance") || "0");
+    let adClickCount = parseInt(localStorage.getItem("adClickCount") || "0");
+    const referredUsers = JSON.parse(localStorage.getItem("referredUsers") || "[]");
+
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref && !referredUsers.includes(ref)) {
+      balance += 0.25;
+      referredUsers.push(ref);
+      localStorage.setItem("referredUsers", JSON.stringify(referredUsers));
+      localStorage.setItem("balance", balance);
+    }
+
+    document.getElementById("balance").textContent = balance.toFixed(2);
+
+    function copyLink() {
+      const link = document.getElementById("referLink");
+      link.select(); link.setSelectionRange(0, 99999999);
+      document.execCommand("copy");
+      alert("রেফার লিঙ্ক কপি হয়েছে!");
+    }
+
+    function addAdBalance() {
+      if (adClickCount >= 50) {
+        alert("আজকের ক্লিক লিমিট শেষ!");
+        return;
+      }
+      const win = window.open("https://www.profitableratecpm.com/mzze4b78n?key=e3998055e23a80c5cbffb7d80a88c74c", "_blank");
+      setTimeout(() => {
+        if (win) win.close();
+        balance += 0.01;
+        adClickCount++;
+        localStorage.setItem("adClickCount", adClickCount);
+        localStorage.setItem("balance", balance);
+        document.getElementById("balance").textContent = balance.toFixed(2);
+        checkSignupVisibility();
+      }, 15000);
+    }
+
+    function toggleWithdraw() {
+      if (balance < 0) {
+        alert("কমপক্ষে $5 ব্যালেন্স থাকতে হবে।");
+        return;
+      }
+      const form = document.getElementById("withdrawForm");
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function submitWithdraw() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      if (balance < 0 || amount > balance) {
+        document.getElementById("msg").textContent = "সঠিক পরিমাণ দিন।";
+        return;
+      }
+      document.getElementById("msg").textContent = "Withdraw রিকোয়েস্ট সফল হয়েছে!";
+    }
+
+    function toggleSignup() {
+      document.getElementById("signupForm").style.display = 'block';
+    }
+
+    function showNotice() {
+      document.getElementById("noticeBox").style.display = "block";
+    }
+
+    function checkSignupVisibility() {
+      if (balance >= 0) {
+        document.getElementById("signupBtn").style.display = 'inline-block';
+      }
+    }
+    checkSignupVisibility();
+  </script>
+</body>
+</html>
