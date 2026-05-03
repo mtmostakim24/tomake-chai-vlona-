@@ -2,64 +2,312 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="1;url="https://onlykhelarnews.blogspot.com">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>লোড হচ্ছে...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>লোড হচ্ছে | রিডিরেক্ট</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #00c6ff, #0072ff);
+    * {
       margin: 0;
       padding: 0;
-      text-align: center;
-      color: #fff;
+      box-sizing: border-box;
     }
 
-    .container {
-      padding-top: 100px;
-    }
-
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 18px;
-    }
-
-    .loading-bar {
-      margin: 30px auto;
-      width: 80%;
-      height: 10px;
-      background: #ffffff33;
-      border-radius: 5px;
-      overflow: hidden;
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 30%, #0b1120, #0a0f1c, #03050b);
+      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
+      overflow-x: hidden;
     }
 
-    .loading-bar::before {
-      content: "";
+    /* অ্যানিমেটেড গ্রেডিয়েন্ট ব্যাকগ্রাউন্ড (গতিশীলতা) */
+    body::before {
+      content: '';
       position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(125deg, 
+        rgba(99, 102, 241, 0.25) 0%, 
+        rgba(168, 85, 247, 0.2) 40%,
+        rgba(236, 72, 153, 0.15) 80%);
+      animation: gradientShift 12s ease infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes gradientShift {
+      0% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.02); }
+      100% { opacity: 0.4; transform: scale(1); }
+    }
+
+    /* ভাসমান কণা (অলংকার) */
+    .floating-particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatParticle 16s infinite linear;
+    }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+        opacity: 0;
+      }
+      20% { opacity: 0.6; }
+      80% { opacity: 0.3; }
+      100% {
+        transform: translateY(-120px) translateX(40px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* মেইন কার্ড – কাঁচের প্রভাব (গ্লাসমরফিজম) */
+    .glass-card {
+      position: relative;
+      z-index: 10;
+      max-width: 460px;
+      width: 88%;
+      margin: 1rem;
+      background: rgba(15, 25, 45, 0.55);
+      backdrop-filter: blur(12px);
+      border-radius: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.1) inset;
+      padding: 2.2rem 1.8rem 2rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+      animation: cardAppear 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* হেডলাইন */
+    .glow-text {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #FFFFFF, #E0E7FF, #C4B5FD);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+    }
+
+    .sub-message {
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+      display: inline-block;
+      padding-bottom: 0.4rem;
+    }
+
+    /* স্পিনার – আধুনিক ডুয়েল রিং + হাইড্রেশন */
+    .spinner-wrapper {
+      margin: 2rem 0 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modern-spinner {
+      position: relative;
+      width: 85px;
+      height: 85px;
+    }
+
+    .modern-spinner .ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: #ffffff;
+      border-right-color: #c084fc;
+      border-bottom-color: #38bdf8;
+      animation: spinRing 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    }
+
+    .modern-spinner .ring:nth-child(2) {
+      width: 70%;
+      height: 70%;
+      top: 15%;
+      left: 15%;
+      border-top-color: #fbbf24;
+      border-left-color: #f472b6;
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      animation: spinReverse 1.2s linear infinite;
+    }
+
+    @keyframes spinRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes spinReverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
+    /* গ্লো এফেক্ট সহ টেক্সট */
+    .info-text {
+      font-size: 1.12rem;
+      font-weight: 500;
+      margin: 1rem 0 0.8rem;
+      color: #f0f3ff;
+      background: rgba(0, 0, 0, 0.2);
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      backdrop-filter: blur(2px);
+    }
+
+    .redirect-note {
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: rgba(255, 240, 210, 0.9);
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      width: fit-content;
+      margin: 0.8rem auto 0;
+      backdrop-filter: blur(2px);
+    }
+
+    .redirect-note span {
+      font-size: 1.1rem;
+      animation: pulseArrow 1s infinite;
+    }
+
+    @keyframes pulseArrow {
+      0% { transform: translateX(0px); opacity: 0.6; }
+      100% { transform: translateX(6px); opacity: 1; }
+    }
+
+    /* প্রগ্রেস বার – স্মুথ ট্রানজিশন */
+    .progress-container {
+      margin-top: 2rem;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      height: 6px;
+      overflow: hidden;
+      box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
+    }
+
+    .progress-fill {
       width: 0%;
       height: 100%;
-      background-color: #fff;
-      animation: load 1s linear forwards;
+      background: linear-gradient(90deg, #ffffff, #c084fc, #60a5fa);
+      border-radius: 20px;
+      animation: loadProgress 1s linear forwards;
+      box-shadow: 0 0 6px #a78bfa;
     }
 
-    @keyframes load {
+    @keyframes loadProgress {
       0% { width: 0%; }
       100% { width: 100%; }
+    }
+
+    /* ফুটার সাজেশন */
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.4px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1rem;
+    }
+
+    /* রেসপন্সিভ আপডেট */
+    @media (max-width: 480px) {
+      .glass-card {
+        padding: 1.6rem 1.2rem;
+      }
+      .glow-text {
+        font-size: 1.6rem;
+      }
+      .modern-spinner {
+        width: 70px;
+        height: 70px;
+      }
+      .info-text {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>⚡ অনুগ্রহ করে অপেক্ষা করুন...</h1>
-    <p>আপনাকে রিডাইরেক্ট করা হচ্ছে বিজ্ঞাপনে</p>
-    <div class="loading-bar"></div>
+<!-- ভাসমান কণা তৈরি - এলোমেলো মাত্রা -->
+<div class="floating-particle" style="width: 60px; height: 60px; top: 12%; left: 5%; animation-duration: 20s; animation-delay: 0s;"></div>
+<div class="floating-particle" style="width: 30px; height: 30px; bottom: 15%; right: 8%; animation-duration: 18s; animation-delay: 2s;"></div>
+<div class="floating-particle" style="width: 45px; height: 45px; top: 40%; right: 12%; animation-duration: 22s; animation-delay: 0.5s;"></div>
+<div class="floating-particle" style="width: 20px; height: 20px; bottom: 25%; left: 15%; animation-duration: 14s; animation-delay: 1s;"></div>
+<div class="floating-particle" style="width: 80px; height: 80px; top: 70%; left: -20px; opacity: 0.2; animation-duration: 26s;"></div>
+
+<!-- মূল কন্টেন্ট কার্ড -->
+<div class="glass-card">
+  <h1 class="glow-text">✨ অনুগ্রহ করে অপেক্ষা করুন... ✨</h1>
+  <div class="sub-message">আপনার জন্য প্রস্তুত হচ্ছে স্বাগতম পেজ</div>
+
+  <!-- ডিজাইনার স্পিনার (ডুয়েল রিং) -->
+  <div class="spinner-wrapper">
+    <div class="modern-spinner">
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
   </div>
 
+  <!-- লোডিং এবং রিডিরেক্ট স্ট্যাটাস -->
+  <div class="info-text">⚡ উন্নত অভিজ্ঞতার জন্য প্রস্তুতি নিচ্ছি ⚡</div>
+  
+  <div class="redirect-note">
+    <span>➡️</span> বিজ্ঞাপনে নিয়ে যাওয়া হচ্ছে <span>➡️</span>
+  </div>
+
+  <!-- প্রগ্রেস বার (অ্যানিমেটেড 1 সেকেন্ড) -->
+  <div class="progress-container">
+    <div class="progress-fill"></div>
+  </div>
+
+  <div class="footer-note">
+    🚀 স্বয়ংক্রিয় পুনঃনির্দেশ • শুধু খেলার খবর
+  </div>
+</div>
+
+<script>
+  // ১ সেকেন্ড পরে প্রদত্ত URL-এ রিডিরেক্ট (original behaviour maintained)
+  setTimeout(function() {
+    window.location.href = "https://onlykhelarnews.blogspot.com";
+  }, 1000);
+  
+  // এক্সট্রা: ছোটখাট কনসোল ইঙ্গিত (শুধুমাত্র ডেভেলপারদের জন্য)
+  console.log("পৃষ্ঠাটি ১ সেকেন্ড পর রিডিরেক্ট হবে → onlykhelarnews.blogspot.com");
+</script>
+
+<!-- নিশ্চিত করা যে কোনও ব্লকিং স্টাইল না থাকে এবং সব ঠিকমত কাজ করে -->
 </body>
 </html>
